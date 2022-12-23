@@ -7,17 +7,17 @@
 
 import UIKit
 
-class MainTabBarViewController: UITabBarController {
+final class MainTabBarViewController: UITabBarController {
 
     private let searchTab: UINavigationController = {
         let controller = UINavigationController(rootViewController: ViewController()) //TODO: searchTab으로 연결
-        controller.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        controller.tabBarItem = UITabBarItem.init(tabBarSystemItem: .search, tag: 0)
         return controller
     }()
     
     private let bookmarkTab: UINavigationController = {
         let controller = UINavigationController(rootViewController: ViewController()) //TODO: storeTab으로 연결
-        controller.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        controller.tabBarItem = UITabBarItem.init(tabBarSystemItem: .favorites, tag: 1)
         return controller
     }()
     
@@ -28,11 +28,11 @@ class MainTabBarViewController: UITabBarController {
         configureUI()
     }
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .white
     }
     
-    func configureTabBar() {
+    private func configureTabBar() {
         tabBar.tintColor = .black
         setViewControllers([searchTab, bookmarkTab], animated: true)
     }
