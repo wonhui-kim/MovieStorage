@@ -26,10 +26,13 @@ final class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.searchController = searchController
-        
+        configureNavBar()
         configureUI()
         setupLayout()
+    }
+    
+    private func configureNavBar() {
+        navigationItem.searchController = searchController
     }
     
     private func configureUI() {
