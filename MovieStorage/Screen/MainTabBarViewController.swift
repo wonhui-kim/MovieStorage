@@ -10,7 +10,7 @@ import UIKit
 final class MainTabBarViewController: UITabBarController {
 
     private let searchTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ViewController()) //TODO: searchTab으로 연결
+        let controller = UINavigationController(rootViewController: SearchViewController())
         controller.tabBarItem = UITabBarItem.init(tabBarSystemItem: .search, tag: 0)
         return controller
     }()
