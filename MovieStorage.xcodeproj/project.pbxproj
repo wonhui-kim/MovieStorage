@@ -16,6 +16,8 @@
 		A79EB3F82955E0F7006A7A0D /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3F72955E0F7006A7A0D /* MainTabBarViewController.swift */; };
 		A79EB4002955EA74006A7A0D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3FF2955EA74006A7A0D /* SearchViewController.swift */; };
 		A79EB4022955EAB9006A7A0D /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB4012955EAB9006A7A0D /* SearchResultsViewController.swift */; };
+		A7E8EFF52957286600C444A3 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E8EFF42957286600C444A3 /* Movie.swift */; };
+		A7E8EFF72957287D00C444A3 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E8EFF62957287D00C444A3 /* APICaller.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		A79EB3F72955E0F7006A7A0D /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A79EB3FF2955EA74006A7A0D /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A79EB4012955EAB9006A7A0D /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		A7E8EFF42957286600C444A3 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		A7E8EFF62957287D00C444A3 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,8 @@
 		A79EB3EF2955D6C4006A7A0D /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				A7E8EFF32957285A00C444A3 /* Mangager */,
+				A7E8EFF22957284B00C444A3 /* Model */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -130,6 +136,22 @@
 				A79EB4012955EAB9006A7A0D /* SearchResultsViewController.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		A7E8EFF22957284B00C444A3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A7E8EFF42957286600C444A3 /* Movie.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A7E8EFF32957285A00C444A3 /* Mangager */ = {
+			isa = PBXGroup;
+			children = (
+				A7E8EFF62957287D00C444A3 /* APICaller.swift */,
+			);
+			path = Mangager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,8 +228,10 @@
 				A79EB3F82955E0F7006A7A0D /* MainTabBarViewController.swift in Sources */,
 				A79EB3DC295598E0006A7A0D /* ViewController.swift in Sources */,
 				A79EB3D8295598E0006A7A0D /* AppDelegate.swift in Sources */,
+				A7E8EFF72957287D00C444A3 /* APICaller.swift in Sources */,
 				A79EB3E2295598E0006A7A0D /* MovieStorage.xcdatamodeld in Sources */,
 				A79EB4022955EAB9006A7A0D /* SearchResultsViewController.swift in Sources */,
+				A7E8EFF52957286600C444A3 /* Movie.swift in Sources */,
 				A79EB3DA295598E0006A7A0D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
