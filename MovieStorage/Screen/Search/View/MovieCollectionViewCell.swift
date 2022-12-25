@@ -77,4 +77,10 @@ final class MovieCollectionViewCell: UICollectionViewCell {
             typeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
         ])
     }
+    
+    func configure(with model: Movie) {
+        titleLabel.text = model.title
+        yearLabel.text = model.year
+        typeLabel.text = model.type
+    }
 }

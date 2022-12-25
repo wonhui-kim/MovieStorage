@@ -43,6 +43,21 @@ final class SearchResultsViewController: UIViewController {
         searchResultsCollectionView.delegate = self
         searchResultsCollectionView.dataSource = self
     }
+    
+    func configure(with query: String) {
+        APICaller.shared.search(with: query) { result in
+            switch result {
+            case .success(let movieResponse):
+                self.movies = movieResponse.search ?? []
+                DispatchQueue.main.async { [weak self] in
+                    self?.searchResultsCollectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
 }
 
 extension SearchResultsViewController: UICollectionViewDelegate {
@@ -59,6 +74,9 @@ extension SearchResultsViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as? MovieCollectionViewCell else {
             return UICollectionViewCell()
         }
+        
+        let movie = movies[indexPath.item]
+        cell.configure(with: movie)
         
         return cell
     }
