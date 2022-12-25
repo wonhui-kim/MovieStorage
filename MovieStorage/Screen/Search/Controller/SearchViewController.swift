@@ -35,6 +35,7 @@ final class SearchViewController: UIViewController {
     
     private func configureNavigationItem() {
         navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
     
     private func configureUI() {
