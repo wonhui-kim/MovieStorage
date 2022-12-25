@@ -25,10 +25,9 @@ final class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        searchController.searchResultsUpdater = self
 
         configureNavigationItem()
+        configureSearchController()
         configureUI()
         setupLayout()
     }
@@ -36,6 +35,10 @@ final class SearchViewController: UIViewController {
     private func configureNavigationItem() {
         navigationItem.searchController = searchController
         definesPresentationContext = true
+    }
+    
+    private func configureSearchController() {
+        searchController.searchBar.delegate = self
     }
     
     private func configureUI() {
@@ -51,17 +54,14 @@ final class SearchViewController: UIViewController {
     
 }
 
-extension SearchViewController: UISearchResultsUpdating {
-
-    func updateSearchResults(for searchController: UISearchController) {
-        let searchBar = searchController.searchBar
-
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text,
-              let resultsController = searchController.searchResultsController as? SearchResultsViewController else {
+              let resultsController = searchController.searchResultsController as? SearchResultsViewController
+        else {
             return
         }
-
+        
         resultsController.configure(with: query)
     }
-
 }
