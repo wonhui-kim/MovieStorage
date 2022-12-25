@@ -62,6 +62,6 @@ extension SearchViewController: UISearchBarDelegate {
             return
         }
         
-        resultsController.configure(with: query)
+        resultsController.configure(with: query, page: 1)
     }
 }
