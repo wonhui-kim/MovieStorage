@@ -5,11 +5,15 @@
 //  Created by kim-wonhui on 2022/12/24.
 //
 
-import Foundation
+import UIKit
 
 struct Constants {
     static let apiKey = "92e32667"
     static let baseURL = "https://www.omdbapi.com"
+}
+
+enum APIError: Error {
+    case failToLoadImage
 }
 
 class APICaller {
@@ -37,6 +41,27 @@ class APICaller {
             } catch {
                 completion(.failure(error))
             }
+        }
+        task.resume()
+    }
+    
+    func downloadImage(url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
+        
+        guard let url = URL(string: url) else { return }
+        
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            
+            guard let data = data, error == nil,
+                  let image = UIImage(data: data)
+            else {
+                completion(.failure(APIError.failToLoadImage))
+                return
+            }
+            
+            completion(.success(image))
         }
         task.resume()
     }
