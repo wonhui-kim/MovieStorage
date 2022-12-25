@@ -20,7 +20,6 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-//        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -57,7 +56,8 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     private func setupLayout() {
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            posterImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             posterImageView.heightAnchor.constraint(equalToConstant: contentView.frame.height * 2/3)
         ])
         
