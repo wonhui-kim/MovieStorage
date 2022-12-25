@@ -25,10 +25,9 @@ final class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        searchController.searchBar.delegate = self
 
         configureNavigationItem()
+        configureSearchController()
         configureUI()
         setupLayout()
     }
@@ -36,6 +35,10 @@ final class SearchViewController: UIViewController {
     private func configureNavigationItem() {
         navigationItem.searchController = searchController
         definesPresentationContext = true
+    }
+    
+    private func configureSearchController() {
+        searchController.searchBar.delegate = self
     }
     
     private func configureUI() {
