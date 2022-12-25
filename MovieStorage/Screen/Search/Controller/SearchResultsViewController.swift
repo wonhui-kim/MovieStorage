@@ -79,9 +79,16 @@ final class SearchResultsViewController: UIViewController {
                 guard let appendedMovie = movieResponse.search else {
                     return
                 }
+                
+                var indexPaths = [IndexPath]()
+                for item in 0..<self.movies.count {
+                    let indexPath = IndexPath(item: item + appendedMovie.count - 1, section: 0)
+                    indexPaths.append(indexPath)
+                }
+                
                 self.movies.append(contentsOf: appendedMovie)
                 DispatchQueue.main.async { [weak self] in
-                    self?.searchResultsCollectionView.reloadData()
+                    self?.searchResultsCollectionView.insertItems(at: indexPaths)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
