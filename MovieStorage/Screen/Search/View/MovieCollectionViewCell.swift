@@ -78,6 +78,11 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        posterImageView.image = UIImage(named: "defaultImage")
+    }
+    
     func configure(with model: Movie) {
 
         APICaller.shared.downloadImage(url: model.poster) { result in
