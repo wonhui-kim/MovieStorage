@@ -79,6 +79,18 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with model: Movie) {
+
+        APICaller.shared.downloadImage(url: model.poster) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async { [weak self] in
+                    self?.posterImageView.image = image
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+
         titleLabel.text = model.title
         yearLabel.text = model.year
         typeLabel.text = model.type
