@@ -92,7 +92,12 @@ final class SearchResultsViewController: UIViewController {
 }
 
 extension SearchResultsViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == movies.count - 1, currentPage <= totalPages {
+            currentPage += 1
+            loadNextPage(with: query, page: currentPage)
+        }
+    }
 }
 
 extension SearchResultsViewController: UICollectionViewDataSource {
