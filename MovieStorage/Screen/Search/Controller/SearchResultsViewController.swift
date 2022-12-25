@@ -10,6 +10,10 @@ import UIKit
 final class SearchResultsViewController: UIViewController {
     
     private var movies = [Movie]()
+    private var query = ""
+    private var currentPage = 1
+    private var totalResults = 0
+    private var totalPages = 0
     
     private let searchResultsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -45,11 +49,37 @@ final class SearchResultsViewController: UIViewController {
         searchResultsCollectionView.dataSource = self
     }
     
-    func configure(with query: String) {
-        APICaller.shared.search(with: query) { result in
+    func configure(with query: String, page: Int) {
+        APICaller.shared.search(with: query, page: page) { result in
             switch result {
             case .success(let movieResponse):
-                self.movies = movieResponse.search ?? []
+                self.query = query
+                guard let totalResultsString = movieResponse.totalResults,
+                      let totalResultsInt = Int(totalResultsString),
+                      let movies = movieResponse.search else {
+                    return
+                }
+                self.totalResults = totalResultsInt
+                self.totalPages = self.totalResults / 10 + 1
+                self.movies = movies
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.searchResultsCollectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func loadNextPage(with query: String, page: Int) {
+        APICaller.shared.search(with: query, page: page) { result in
+            switch result {
+            case .success(let movieResponse):
+                guard let appendedMovie = movieResponse.search else {
+                    return
+                }
+                self.movies.append(contentsOf: appendedMovie)
                 DispatchQueue.main.async { [weak self] in
                     self?.searchResultsCollectionView.reloadData()
                 }
