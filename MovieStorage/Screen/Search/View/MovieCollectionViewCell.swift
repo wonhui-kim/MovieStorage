@@ -115,7 +115,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with model: Movie) {
+    func configure(with model: Movie, bookmarks: Set<Movie>) {
 
         APICaller.shared.downloadImage(url: model.poster) { [weak self] result in
             switch result {
@@ -131,6 +131,10 @@ final class MovieCollectionViewCell: UICollectionViewCell {
             }
         }
         
+        if bookmarks.contains(model) {
+            bookmarkButton.isHidden = false
+        }
+
         titleLabel.text = model.title
         yearLabel.text = model.year
         typeLabel.text = model.type

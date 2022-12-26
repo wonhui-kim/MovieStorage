@@ -135,7 +135,7 @@ extension SearchResultsViewController: UICollectionViewDataSource {
         }
         
         let movie = movies[indexPath.item]
-        cell.configure(with: movie)
+        cell.configure(with: movie, bookmarks: bookmarks)
         
         return cell
     }
@@ -148,6 +148,14 @@ extension SearchResultsViewController {
     private func beforeBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
         let defaultAction = UIAlertAction(title: "즐겨찾기", style: .default) { [weak self] (action) in
             self?.bookmarks.insert(bookmark)
+            
+            guard let bookmarksSet = self?.bookmarks else {
+                return
+            }
+            
+            if bookmarksSet.contains(bookmark) {
+                self?.showBookmarkButton(cell: cell)
+            }
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         
@@ -164,6 +172,14 @@ extension SearchResultsViewController {
     private func afterBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
         let defaultAction = UIAlertAction(title: "즐겨찾기 제거", style: .destructive) { [weak self] (action) in
             self?.bookmarks.remove(bookmark)
+            
+            guard let bookmarksSet = self?.bookmarks else {
+                return
+            }
+            
+            if !bookmarksSet.contains(bookmark) {
+                self?.hideBookmarkButton(cell: cell)
+            }
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         
@@ -174,5 +190,15 @@ extension SearchResultsViewController {
         }
         
         present(controller, animated: true)
+    }
+    
+    ///선택된 셀의 버튼을 보이게 하는 함수 - 즐겨찾기에 추가된 영화임을 알 수 있게 하는 기능
+    private func showBookmarkButton(cell: MovieCollectionViewCell) {
+        cell.bookmarkButton.isHidden = false
+    }
+    
+    ///선택된 셀의 버튼을 보이지 않게 하는 함수
+    private func hideBookmarkButton(cell: MovieCollectionViewCell) {
+        cell.bookmarkButton.isHidden = true
     }
 }
