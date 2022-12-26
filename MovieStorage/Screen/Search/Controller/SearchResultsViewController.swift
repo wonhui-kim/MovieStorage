@@ -80,8 +80,8 @@ final class SearchResultsViewController: UIViewController {
                     return
                 }
                 
-                var indexPaths = Array(0..<moviesCount).map {
-                    IndexPath(item: $0 + appendedMovie.count - 1, section: 0)
+                let indexPaths = Array(0..<appendedMovie.count).map {
+                    IndexPath(item: $0 + moviesCount - 1, section: 0)
                 }
                 
                 self?.movies.append(contentsOf: appendedMovie)
