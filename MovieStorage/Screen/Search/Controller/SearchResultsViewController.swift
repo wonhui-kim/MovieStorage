@@ -14,6 +14,8 @@ final class SearchResultsViewController: UIViewController {
     private var currentPage = 1
     private var totalPages = 0
     
+    private var bookmarks = Set<Movie>()
+    
     private let searchResultsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width/2-10, height: 300)
@@ -103,6 +105,22 @@ extension SearchResultsViewController: UICollectionViewDelegate {
             loadNextPage(with: query, page: currentPage)
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MovieCollectionViewCell else {
+            return
+        }
+        
+        let movie = movies[indexPath.item]
+        let bookmark = movie
+        
+        if !bookmarks.contains(bookmark) {
+            beforeBookmarkAction(bookmark: bookmark, cell: cell)
+        } else {
+            afterBookmarkAction(bookmark: bookmark, cell: cell)
+        }
+    }
 }
 
 extension SearchResultsViewController: UICollectionViewDataSource {
@@ -120,5 +138,41 @@ extension SearchResultsViewController: UICollectionViewDataSource {
         cell.configure(with: movie)
         
         return cell
+    }
+}
+
+// MARK: 즐겨찾기 actionSheet 관련 함수
+extension SearchResultsViewController {
+    
+    ///즐겨찾기에 추가되지 않은 셀 클릭 시 "즐겨찾기" 선택창(actionSheet)이 뜨도록 호출되는 함수
+    private func beforeBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
+        let defaultAction = UIAlertAction(title: "즐겨찾기", style: .default) { [weak self] (action) in
+            self?.bookmarks.insert(bookmark)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        let controller = UIAlertController(title: "즐겨찾기 추가", message: "즐겨찾기에 추가하시겠습니까?", preferredStyle: .actionSheet)
+        
+        [defaultAction, cancelAction].forEach { action in
+            controller.addAction(action)
+        }
+        
+        present(controller, animated: true)
+    }
+    
+    ///즐겨찾기에 이미 추가된 셀 클릭 시 "즐겨찾기 제거" 선택창(actionSheet)이 뜨도록 호출되는 함수
+    private func afterBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
+        let defaultAction = UIAlertAction(title: "즐겨찾기 제거", style: .destructive) { [weak self] (action) in
+            self?.bookmarks.remove(bookmark)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        let controller = UIAlertController(title: "즐겨찾기 제거", message: "즐겨찾기에서 제거하시겠습니까?", preferredStyle: .actionSheet)
+        
+        [defaultAction, cancelAction].forEach { action in
+            controller.addAction(action)
+        }
+        
+        present(controller, animated: true)
     }
 }
