@@ -116,7 +116,7 @@ extension SearchResultsViewController: UICollectionViewDelegate {
         let bookmark = movie
         
         if !bookmarks.contains(bookmark) {
-            appendBookmarkAction(bookmark: bookmark, cell: cell)
+            insertBookmarkAction(bookmark: bookmark, cell: cell)
         } else {
             deleteBookmarkAction(bookmark: bookmark, cell: cell)
         }
@@ -145,7 +145,7 @@ extension SearchResultsViewController: UICollectionViewDataSource {
 extension SearchResultsViewController {
     
     ///즐겨찾기에 추가되지 않은 셀 클릭 시 "즐겨찾기" 선택창(actionSheet)이 뜨도록 호출되는 함수
-    private func appendBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
+    private func insertBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
         let defaultAction = UIAlertAction(title: "즐겨찾기", style: .default) { [weak self] (action) in
             self?.bookmarks.insert(bookmark)
             
