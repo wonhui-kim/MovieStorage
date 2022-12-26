@@ -80,13 +80,16 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     
     func configure(with model: Movie) {
 
-        APICaller.shared.downloadImage(url: model.poster) { result in
+        APICaller.shared.downloadImage(url: model.poster) { [weak self] result in
             switch result {
             case .success(let image):
-                DispatchQueue.main.async { [weak self] in
+                DispatchQueue.main.async {
                     self?.posterImageView.image = image
                 }
             case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.posterImageView.image = UIImage(named: "defaultImage")
+                }
                 print(error.localizedDescription)
             }
         }

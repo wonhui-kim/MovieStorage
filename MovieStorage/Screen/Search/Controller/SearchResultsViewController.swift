@@ -10,6 +10,9 @@ import UIKit
 final class SearchResultsViewController: UIViewController {
     
     private var movies = [Movie]()
+    private var query = ""
+    private var currentPage = 1
+    private var totalPages = 0
     
     private let searchResultsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -45,13 +48,45 @@ final class SearchResultsViewController: UIViewController {
         searchResultsCollectionView.dataSource = self
     }
     
-    func configure(with query: String) {
-        APICaller.shared.search(with: query) { result in
+    func configure(with query: String, page: Int) {
+        APICaller.shared.search(with: query, page: page) { [weak self] result in
             switch result {
             case .success(let movieResponse):
-                self.movies = movieResponse.search ?? []
-                DispatchQueue.main.async { [weak self] in
+                self?.query = query
+                guard let totalResultsString = movieResponse.totalResults,
+                      let totalResultsInt = Int(totalResultsString),
+                      let movies = movieResponse.search else {
+                    return
+                }
+                self?.totalPages = totalResultsInt / 10 + 1
+                self?.movies = movies
+                
+                DispatchQueue.main.async {
                     self?.searchResultsCollectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func loadNextPage(with query: String, page: Int) {
+        APICaller.shared.search(with: query, page: page) { [weak self] result in
+            switch result {
+            case .success(let movieResponse):
+                guard let appendedMovie = movieResponse.search,
+                      let moviesCount = self?.movies.count
+                else {
+                    return
+                }
+                
+                var indexPaths = Array(0..<moviesCount).map {
+                    IndexPath(item: $0 + appendedMovie.count - 1, section: 0)
+                }
+                
+                self?.movies.append(contentsOf: appendedMovie)
+                DispatchQueue.main.async {
+                    self?.searchResultsCollectionView.insertItems(at: indexPaths)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -62,7 +97,12 @@ final class SearchResultsViewController: UIViewController {
 }
 
 extension SearchResultsViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == movies.count - 1, currentPage <= totalPages {
+            currentPage += 1
+            loadNextPage(with: query, page: currentPage)
+        }
+    }
 }
 
 extension SearchResultsViewController: UICollectionViewDataSource {
