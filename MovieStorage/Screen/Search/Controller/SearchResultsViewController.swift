@@ -14,6 +14,8 @@ final class SearchResultsViewController: UIViewController {
     private var currentPage = 1
     private var totalPages = 0
     
+    private var bookmarks = Set<Movie>()
+    
     private let searchResultsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width/2-10, height: 300)
@@ -80,8 +82,8 @@ final class SearchResultsViewController: UIViewController {
                     return
                 }
                 
-                var indexPaths = Array(0..<moviesCount).map {
-                    IndexPath(item: $0 + appendedMovie.count - 1, section: 0)
+                let indexPaths = Array(0..<appendedMovie.count).map {
+                    IndexPath(item: $0 + moviesCount - 1, section: 0)
                 }
                 
                 self?.movies.append(contentsOf: appendedMovie)
@@ -103,6 +105,22 @@ extension SearchResultsViewController: UICollectionViewDelegate {
             loadNextPage(with: query, page: currentPage)
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MovieCollectionViewCell else {
+            return
+        }
+        
+        let movie = movies[indexPath.item]
+        let bookmark = movie
+        
+        if !bookmarks.contains(bookmark) {
+            insertBookmarkAction(bookmark: bookmark, cell: cell)
+        } else {
+            deleteBookmarkAction(bookmark: bookmark, cell: cell)
+        }
+    }
 }
 
 extension SearchResultsViewController: UICollectionViewDataSource {
@@ -117,8 +135,70 @@ extension SearchResultsViewController: UICollectionViewDataSource {
         }
         
         let movie = movies[indexPath.item]
-        cell.configure(with: movie)
+        cell.configure(with: movie, bookmarks: bookmarks)
         
         return cell
+    }
+}
+
+// MARK: 즐겨찾기 actionSheet 관련 함수
+extension SearchResultsViewController {
+    
+    ///즐겨찾기에 추가되지 않은 셀 클릭 시 "즐겨찾기" 선택창(actionSheet)이 뜨도록 호출되는 함수
+    private func insertBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
+        let defaultAction = UIAlertAction(title: "즐겨찾기", style: .default) { [weak self] (action) in
+            self?.bookmarks.insert(bookmark)
+            
+            guard let bookmarksSet = self?.bookmarks else {
+                return
+            }
+            
+            if bookmarksSet.contains(bookmark) {
+                self?.showBookmarkButton(cell: cell)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        let controller = UIAlertController(title: "즐겨찾기 추가", message: "즐겨찾기에 추가하시겠습니까?", preferredStyle: .actionSheet)
+        
+        [defaultAction, cancelAction].forEach { action in
+            controller.addAction(action)
+        }
+        
+        present(controller, animated: true)
+    }
+    
+    ///즐겨찾기에 이미 추가된 셀 클릭 시 "즐겨찾기 제거" 선택창(actionSheet)이 뜨도록 호출되는 함수
+    private func deleteBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
+        let defaultAction = UIAlertAction(title: "즐겨찾기 제거", style: .destructive) { [weak self] (action) in
+            self?.bookmarks.remove(bookmark)
+            
+            guard let bookmarksSet = self?.bookmarks else {
+                return
+            }
+            
+            if !bookmarksSet.contains(bookmark) {
+                self?.hideBookmarkButton(cell: cell)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        let controller = UIAlertController(title: "즐겨찾기 제거", message: "즐겨찾기에서 제거하시겠습니까?", preferredStyle: .actionSheet)
+        
+        [defaultAction, cancelAction].forEach { action in
+            controller.addAction(action)
+        }
+        
+        present(controller, animated: true)
+    }
+    
+    ///선택된 셀의 버튼을 보이게 하는 함수 - 즐겨찾기에 추가된 영화임을 알 수 있게 하는 기능
+    private func showBookmarkButton(cell: MovieCollectionViewCell) {
+        cell.bookmarkButton.isHidden = false
+    }
+    
+    ///선택된 셀의 버튼을 보이지 않게 하는 함수
+    private func hideBookmarkButton(cell: MovieCollectionViewCell) {
+        cell.bookmarkButton.isHidden = true
     }
 }
