@@ -12,7 +12,6 @@ final class SearchResultsViewController: UIViewController {
     private var movies = [Movie]()
     private var query = ""
     private var currentPage = 1
-    private var totalResults = 0
     private var totalPages = 0
     
     private let searchResultsCollectionView: UICollectionView = {
@@ -50,20 +49,19 @@ final class SearchResultsViewController: UIViewController {
     }
     
     func configure(with query: String, page: Int) {
-        APICaller.shared.search(with: query, page: page) { result in
+        APICaller.shared.search(with: query, page: page) { [weak self] result in
             switch result {
             case .success(let movieResponse):
-                self.query = query
+                self?.query = query
                 guard let totalResultsString = movieResponse.totalResults,
                       let totalResultsInt = Int(totalResultsString),
                       let movies = movieResponse.search else {
                     return
                 }
-                self.totalResults = totalResultsInt
-                self.totalPages = self.totalResults / 10 + 1
-                self.movies = movies
+                self?.totalPages = totalResultsInt / 10 + 1
+                self?.movies = movies
                 
-                DispatchQueue.main.async { [weak self] in
+                DispatchQueue.main.async {
                     self?.searchResultsCollectionView.reloadData()
                 }
             case .failure(let error):
@@ -73,21 +71,23 @@ final class SearchResultsViewController: UIViewController {
     }
     
     private func loadNextPage(with query: String, page: Int) {
-        APICaller.shared.search(with: query, page: page) { result in
+        APICaller.shared.search(with: query, page: page) { [weak self] result in
             switch result {
             case .success(let movieResponse):
-                guard let appendedMovie = movieResponse.search else {
+                guard let appendedMovie = movieResponse.search,
+                      let moviesCount = self?.movies.count
+                else {
                     return
                 }
                 
                 var indexPaths = [IndexPath]()
-                for item in 0..<self.movies.count {
+                for item in 0..<moviesCount {
                     let indexPath = IndexPath(item: item + appendedMovie.count - 1, section: 0)
                     indexPaths.append(indexPath)
                 }
                 
-                self.movies.append(contentsOf: appendedMovie)
-                DispatchQueue.main.async { [weak self] in
+                self?.movies.append(contentsOf: appendedMovie)
+                DispatchQueue.main.async {
                     self?.searchResultsCollectionView.insertItems(at: indexPaths)
                 }
             case .failure(let error):
