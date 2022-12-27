@@ -18,7 +18,7 @@ final class SearchResultsViewController: UIViewController {
     
     private let searchResultsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/2-10, height: 300)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/2, height: 300)
         layout.minimumInteritemSpacing = 0
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -135,7 +135,7 @@ extension SearchResultsViewController: UICollectionViewDataSource {
         }
         
         let movie = movies[indexPath.item]
-        cell.configure(with: movie, bookmarks: bookmarks)
+        cell.configureSearchResults(with: movie, bookmarks: bookmarks)
         
         return cell
     }

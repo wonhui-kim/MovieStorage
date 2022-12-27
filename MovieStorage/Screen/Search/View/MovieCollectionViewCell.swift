@@ -115,7 +115,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with model: Movie, bookmarks: Set<Movie>) {
+    func configureSearchResults(with model: Movie, bookmarks: Set<Movie>) {
 
         APICaller.shared.downloadImage(url: model.poster) { [weak self] result in
             switch result {
