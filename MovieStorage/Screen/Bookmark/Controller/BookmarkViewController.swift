@@ -28,6 +28,9 @@ class BookmarkViewController: UIViewController {
         configureNavigationBar()
         configureUI()
         configureCollectionView()
+        
+        reloadCollectionView()
+        subscribeBookmark()
     }
     
     override func viewDidLayoutSubviews() {
@@ -37,7 +40,7 @@ class BookmarkViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        title = "내 즐겨찾기"
+        navigationItem.title = "내 즐겨찾기"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
@@ -70,5 +73,20 @@ extension BookmarkViewController: UICollectionViewDataSource {
         cell.configureBookmark(with: bookmark)
     
         return cell
+    }
+}
+
+extension BookmarkViewController {
+    
+    private func subscribeBookmark() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: Notification.Name.bookmarkUpdated, object: nil)
+    }
+    
+    @objc
+    private func reloadCollectionView() {
+        bookmarks = BookmarkManager.shared.fetchBookmark()
+        DispatchQueue.main.async { [weak self] in
+            self?.bookmarkCollectionView.reloadData()
+        }
     }
 }

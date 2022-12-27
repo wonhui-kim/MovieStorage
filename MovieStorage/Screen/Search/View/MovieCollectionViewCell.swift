@@ -115,7 +115,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configureSearchResults(with model: Movie, bookmarks: Set<Movie>) {
+    func configureSearchResults(with model: Movie) {
 
         APICaller.shared.downloadImage(url: model.poster) { [weak self] result in
             switch result {
@@ -130,8 +130,8 @@ final class MovieCollectionViewCell: UICollectionViewCell {
                 print(error.localizedDescription)
             }
         }
-        
-        if bookmarks.contains(model) {
+
+        if BookmarkManager.shared.containsBookmark(movie: model) {
             bookmarkButton.isHidden = false
         }
 

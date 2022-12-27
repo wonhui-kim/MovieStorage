@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7333969295AF03600DA5055 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7333968295AF03600DA5055 /* BookmarkManager.swift */; };
 		A79EB3D8295598E0006A7A0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3D7295598E0006A7A0D /* AppDelegate.swift */; };
 		A79EB3DA295598E0006A7A0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3D9295598E0006A7A0D /* SceneDelegate.swift */; };
 		A79EB3DC295598E0006A7A0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3DB295598E0006A7A0D /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A7333968295AF03600DA5055 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
 		A79EB3D4295598E0006A7A0D /* MovieStorage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieStorage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A79EB3D7295598E0006A7A0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A79EB3D9295598E0006A7A0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				A7E8EFF62957287D00C444A3 /* APICaller.swift */,
+				A7333968295AF03600DA5055 /* BookmarkManager.swift */,
 			);
 			path = Mangager;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				A79EB3F82955E0F7006A7A0D /* MainTabBarViewController.swift in Sources */,
 				A79EB3DC295598E0006A7A0D /* ViewController.swift in Sources */,
 				A79EB3D8295598E0006A7A0D /* AppDelegate.swift in Sources */,
+				A7333969295AF03600DA5055 /* BookmarkManager.swift in Sources */,
 				A7E8EFF72957287D00C444A3 /* APICaller.swift in Sources */,
 				A79EB3E2295598E0006A7A0D /* MovieStorage.xcdatamodeld in Sources */,
 				A79EB4022955EAB9006A7A0D /* SearchResultsViewController.swift in Sources */,
