@@ -56,7 +56,14 @@ class BookmarkViewController: UIViewController {
 }
 
 extension BookmarkViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MovieCollectionViewCell else {
+            return
+        }
+        
+        let bookmark = bookmarks[indexPath.item]
+        deleteBookmarkAction(bookmark: bookmark, cell: cell)
+    }
 }
 
 extension BookmarkViewController: UICollectionViewDataSource {
@@ -77,7 +84,6 @@ extension BookmarkViewController: UICollectionViewDataSource {
 }
 
 extension BookmarkViewController {
-    
     private func subscribeBookmark() {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: Notification.Name.bookmarkUpdated, object: nil)
     }
@@ -88,5 +94,26 @@ extension BookmarkViewController {
         DispatchQueue.main.async { [weak self] in
             self?.bookmarkCollectionView.reloadData()
         }
+    }
+}
+
+extension BookmarkViewController {
+    private func deleteBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
+        let defaultAction = UIAlertAction(title: "즐겨찾기 제거", style: .destructive) { (action) in
+            
+            BookmarkManager.shared.removeBookmark(movie: bookmark)
+            
+            NotificationCenter.default.post(name: Notification.Name.bookmarkUpdated, object: nil)
+            NotificationCenter.default.post(name: Notification.Name.bookmarkRemoved, object: nil)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        let controller = UIAlertController(title: "즐겨찾기 제거", message: "즐겨찾기에서 제거하시겠습니까?", preferredStyle: .actionSheet)
+        
+        [defaultAction, cancelAction].forEach { action in
+            controller.addAction(action)
+        }
+        
+        present(controller, animated: true)
     }
 }

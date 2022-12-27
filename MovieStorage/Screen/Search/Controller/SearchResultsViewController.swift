@@ -31,6 +31,7 @@ final class SearchResultsViewController: UIViewController {
 
         configureCollectionView()
         configureUI()
+        subscribeBookmark()
     }
     
     override func viewDidLayoutSubviews() {
@@ -201,4 +202,18 @@ extension SearchResultsViewController {
 
 extension Notification.Name {
     static let bookmarkUpdated = Notification.Name(rawValue: "bookmarkUpdated")
+    static let bookmarkRemoved = Notification.Name(rawValue: "bookmarkRemoved")
+}
+
+extension SearchResultsViewController {
+    private func subscribeBookmark() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: Notification.Name.bookmarkRemoved, object: nil)
+    }
+
+    @objc
+    private func reloadCollectionView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.searchResultsCollectionView.reloadData()
+        }
+    }
 }
