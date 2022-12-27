@@ -140,4 +140,25 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         typeLabel.text = model.type
     }
     
+    func configureBookmark(with model: Movie) {
+        APICaller.shared.downloadImage(url: model.poster) { [weak self] result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self?.posterImageView.image = image
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.posterImageView.image = UIImage(named: "defaultImage")
+                }
+                print(error.localizedDescription)
+            }
+        }
+        
+        bookmarkButton.isHidden = false
+        titleLabel.text = model.title
+        yearLabel.text = model.year
+        typeLabel.text = model.type
+    }
+    
 }
