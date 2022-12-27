@@ -14,11 +14,9 @@ final class SearchResultsViewController: UIViewController {
     private var currentPage = 1
     private var totalPages = 0
     
-    private var bookmarks = Set<Movie>()
-    
     private let searchResultsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/2-10, height: 300)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/2, height: 300)
         layout.minimumInteritemSpacing = 0
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -33,6 +31,7 @@ final class SearchResultsViewController: UIViewController {
 
         configureCollectionView()
         configureUI()
+        subscribeBookmark()
     }
     
     override func viewDidLayoutSubviews() {
@@ -115,7 +114,7 @@ extension SearchResultsViewController: UICollectionViewDelegate {
         let movie = movies[indexPath.item]
         let bookmark = movie
         
-        if !bookmarks.contains(bookmark) {
+        if !BookmarkManager.shared.containsBookmark(movie: bookmark) {
             insertBookmarkAction(bookmark: bookmark, cell: cell)
         } else {
             deleteBookmarkAction(bookmark: bookmark, cell: cell)
@@ -135,7 +134,7 @@ extension SearchResultsViewController: UICollectionViewDataSource {
         }
         
         let movie = movies[indexPath.item]
-        cell.configure(with: movie, bookmarks: bookmarks)
+        cell.configureSearchResults(with: movie)
         
         return cell
     }
@@ -147,13 +146,12 @@ extension SearchResultsViewController {
     ///즐겨찾기에 추가되지 않은 셀 클릭 시 "즐겨찾기" 선택창(actionSheet)이 뜨도록 호출되는 함수
     private func insertBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
         let defaultAction = UIAlertAction(title: "즐겨찾기", style: .default) { [weak self] (action) in
-            self?.bookmarks.insert(bookmark)
             
-            guard let bookmarksSet = self?.bookmarks else {
-                return
-            }
+            BookmarkManager.shared.insertBookmark(movie: bookmark)
             
-            if bookmarksSet.contains(bookmark) {
+            NotificationCenter.default.post(name: Notification.Name.bookmarkUpdated, object: nil)
+            
+            if BookmarkManager.shared.containsBookmark(movie: bookmark) {
                 self?.showBookmarkButton(cell: cell)
             }
         }
@@ -171,13 +169,12 @@ extension SearchResultsViewController {
     ///즐겨찾기에 이미 추가된 셀 클릭 시 "즐겨찾기 제거" 선택창(actionSheet)이 뜨도록 호출되는 함수
     private func deleteBookmarkAction(bookmark: Movie, cell: MovieCollectionViewCell) {
         let defaultAction = UIAlertAction(title: "즐겨찾기 제거", style: .destructive) { [weak self] (action) in
-            self?.bookmarks.remove(bookmark)
             
-            guard let bookmarksSet = self?.bookmarks else {
-                return
-            }
+            BookmarkManager.shared.removeBookmark(movie: bookmark)
             
-            if !bookmarksSet.contains(bookmark) {
+            NotificationCenter.default.post(name: Notification.Name.bookmarkUpdated, object: nil)
+            
+            if !BookmarkManager.shared.containsBookmark(movie: bookmark) {
                 self?.hideBookmarkButton(cell: cell)
             }
         }
@@ -200,5 +197,23 @@ extension SearchResultsViewController {
     ///선택된 셀의 버튼을 보이지 않게 하는 함수
     private func hideBookmarkButton(cell: MovieCollectionViewCell) {
         cell.bookmarkButton.isHidden = true
+    }
+}
+
+extension Notification.Name {
+    static let bookmarkUpdated = Notification.Name(rawValue: "bookmarkUpdated")
+    static let bookmarkRemoved = Notification.Name(rawValue: "bookmarkRemoved")
+}
+
+extension SearchResultsViewController {
+    private func subscribeBookmark() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: Notification.Name.bookmarkRemoved, object: nil)
+    }
+
+    @objc
+    private func reloadCollectionView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.searchResultsCollectionView.reloadData()
+        }
     }
 }

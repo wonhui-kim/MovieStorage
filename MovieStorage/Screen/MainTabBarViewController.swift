@@ -16,7 +16,7 @@ final class MainTabBarViewController: UITabBarController {
     }()
     
     private let bookmarkTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ViewController()) //TODO: storeTab으로 연결
+        let controller = UINavigationController(rootViewController: BookmarkViewController())
         controller.tabBarItem = UITabBarItem.init(tabBarSystemItem: .favorites, tag: 1)
         return controller
     }()

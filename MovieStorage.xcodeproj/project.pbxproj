@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7333969295AF03600DA5055 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7333968295AF03600DA5055 /* BookmarkManager.swift */; };
 		A79EB3D8295598E0006A7A0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3D7295598E0006A7A0D /* AppDelegate.swift */; };
 		A79EB3DA295598E0006A7A0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3D9295598E0006A7A0D /* SceneDelegate.swift */; };
 		A79EB3DC295598E0006A7A0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3DB295598E0006A7A0D /* ViewController.swift */; };
@@ -15,6 +16,7 @@
 		A79EB3E7295598E1006A7A0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A79EB3E5295598E1006A7A0D /* LaunchScreen.storyboard */; };
 		A79EB3F82955E0F7006A7A0D /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3F72955E0F7006A7A0D /* MainTabBarViewController.swift */; };
 		A79EB4022955EAB9006A7A0D /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB4012955EAB9006A7A0D /* SearchResultsViewController.swift */; };
+		A7DE2CC52959ECD8002A31FA /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DE2CC42959ECD8002A31FA /* BookmarkViewController.swift */; };
 		A7E8EFF52957286600C444A3 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E8EFF42957286600C444A3 /* Movie.swift */; };
 		A7E8EFF72957287D00C444A3 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E8EFF62957287D00C444A3 /* APICaller.swift */; };
 		A7E8EFFA2957549000C444A3 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E8EFF92957549000C444A3 /* MovieCollectionViewCell.swift */; };
@@ -22,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A7333968295AF03600DA5055 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
 		A79EB3D4295598E0006A7A0D /* MovieStorage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieStorage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A79EB3D7295598E0006A7A0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A79EB3D9295598E0006A7A0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,6 +35,7 @@
 		A79EB3E8295598E1006A7A0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A79EB3F72955E0F7006A7A0D /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A79EB4012955EAB9006A7A0D /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		A7DE2CC42959ECD8002A31FA /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
 		A7E8EFF42957286600C444A3 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		A7E8EFF62957287D00C444A3 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		A7E8EFF92957549000C444A3 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -97,6 +101,7 @@
 		A79EB3F02955D6CA006A7A0D /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				A7DE2CC32959ECC4002A31FA /* Bookmark */,
 				A79EB3FE2955EA68006A7A0D /* Search */,
 				A79EB3DB295598E0006A7A0D /* ViewController.swift */,
 				A79EB3F72955E0F7006A7A0D /* MainTabBarViewController.swift */,
@@ -140,6 +145,22 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		A7DE2CC32959ECC4002A31FA /* Bookmark */ = {
+			isa = PBXGroup;
+			children = (
+				A7DE2CC62959ECE3002A31FA /* Controller */,
+			);
+			path = Bookmark;
+			sourceTree = "<group>";
+		};
+		A7DE2CC62959ECE3002A31FA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A7DE2CC42959ECD8002A31FA /* BookmarkViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		A7E8EFF22957284B00C444A3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				A7E8EFF62957287D00C444A3 /* APICaller.swift */,
+				A7333968295AF03600DA5055 /* BookmarkManager.swift */,
 			);
 			path = Mangager;
 			sourceTree = "<group>";
@@ -243,10 +265,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7DE2CC52959ECD8002A31FA /* BookmarkViewController.swift in Sources */,
 				A7E8EFFF2958150B00C444A3 /* SearchViewController.swift in Sources */,
 				A79EB3F82955E0F7006A7A0D /* MainTabBarViewController.swift in Sources */,
 				A79EB3DC295598E0006A7A0D /* ViewController.swift in Sources */,
 				A79EB3D8295598E0006A7A0D /* AppDelegate.swift in Sources */,
+				A7333969295AF03600DA5055 /* BookmarkManager.swift in Sources */,
 				A7E8EFF72957287D00C444A3 /* APICaller.swift in Sources */,
 				A79EB3E2295598E0006A7A0D /* MovieStorage.xcdatamodeld in Sources */,
 				A79EB4022955EAB9006A7A0D /* SearchResultsViewController.swift in Sources */,
