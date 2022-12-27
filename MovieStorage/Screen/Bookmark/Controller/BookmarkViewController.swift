@@ -51,6 +51,8 @@ class BookmarkViewController: UIViewController {
     private func configureCollectionView() {
         bookmarkCollectionView.delegate = self
         bookmarkCollectionView.dataSource = self
+        bookmarkCollectionView.dragDelegate = self
+        bookmarkCollectionView.dropDelegate = self
     }
 
 }
@@ -80,6 +82,42 @@ extension BookmarkViewController: UICollectionViewDataSource {
         cell.configureBookmark(with: bookmark)
     
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        bookmarks.insert(bookmarks.remove(at: sourceIndexPath.item), at: destinationIndexPath.item)
+    }
+}
+
+extension BookmarkViewController: UICollectionViewDragDelegate {
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return []
+    }
+}
+
+extension BookmarkViewController: UICollectionViewDropDelegate {
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        guard let destinationIndexPath = coordinator.destinationIndexPath,
+              let dropItem = coordinator.items.first,
+              let sourceIndexPath = dropItem.sourceIndexPath
+        else {
+            return
+        }
+        
+        collectionView.performBatchUpdates ({
+            let bookmark = bookmarks[sourceIndexPath.item]
+            bookmarks.remove(at: sourceIndexPath.item)
+            bookmarks.insert(bookmark, at: destinationIndexPath.item)
+            
+            collectionView.deleteItems(at: [sourceIndexPath])
+            collectionView.insertItems(at: [destinationIndexPath])
+        }, completion: { _ in
+            coordinator.drop(dropItem.dragItem, toItemAt: destinationIndexPath)
+        })
     }
 }
 
