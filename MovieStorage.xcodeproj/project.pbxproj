@@ -10,7 +10,6 @@
 		A7333969295AF03600DA5055 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7333968295AF03600DA5055 /* BookmarkManager.swift */; };
 		A79EB3D8295598E0006A7A0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3D7295598E0006A7A0D /* AppDelegate.swift */; };
 		A79EB3DA295598E0006A7A0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3D9295598E0006A7A0D /* SceneDelegate.swift */; };
-		A79EB3DC295598E0006A7A0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3DB295598E0006A7A0D /* ViewController.swift */; };
 		A79EB3E2295598E0006A7A0D /* MovieStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A79EB3E0295598E0006A7A0D /* MovieStorage.xcdatamodeld */; };
 		A79EB3E4295598E1006A7A0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A79EB3E3295598E1006A7A0D /* Assets.xcassets */; };
 		A79EB3E7295598E1006A7A0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A79EB3E5295598E1006A7A0D /* LaunchScreen.storyboard */; };
@@ -29,7 +28,6 @@
 		A79EB3D4295598E0006A7A0D /* MovieStorage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieStorage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A79EB3D7295598E0006A7A0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A79EB3D9295598E0006A7A0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A79EB3DB295598E0006A7A0D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A79EB3E1295598E0006A7A0D /* MovieStorage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieStorage.xcdatamodel; sourceTree = "<group>"; };
 		A79EB3E3295598E1006A7A0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A79EB3E6295598E1006A7A0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 			children = (
 				A7DE2CC32959ECC4002A31FA /* Bookmark */,
 				A79EB3FE2955EA68006A7A0D /* Search */,
-				A79EB3DB295598E0006A7A0D /* ViewController.swift */,
 				A79EB3F72955E0F7006A7A0D /* MainTabBarViewController.swift */,
 			);
 			path = Screen;
@@ -271,7 +268,6 @@
 				A7DE2CC52959ECD8002A31FA /* BookmarkViewController.swift in Sources */,
 				A7E8EFFF2958150B00C444A3 /* SearchViewController.swift in Sources */,
 				A79EB3F82955E0F7006A7A0D /* MainTabBarViewController.swift in Sources */,
-				A79EB3DC295598E0006A7A0D /* ViewController.swift in Sources */,
 				A79EB3D8295598E0006A7A0D /* AppDelegate.swift in Sources */,
 				A7333969295AF03600DA5055 /* BookmarkManager.swift in Sources */,
 				A7E8EFF72957287D00C444A3 /* APICaller.swift in Sources */,
