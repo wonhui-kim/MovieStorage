@@ -22,8 +22,17 @@ final class SearchResultsViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
         collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: MovieCollectionViewCell.identifier)
-        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
+    }()
+    
+    private lazy var noResultLabel: UILabel = {
+        let label = UILabel()
+        label.text = "검색 결과가 없습니다."
+        label.textColor = .gray
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
 
     override func viewDidLoad() {
@@ -31,17 +40,28 @@ final class SearchResultsViewController: UIViewController {
 
         configureCollectionView()
         configureUI()
+        setupLayout()
         subscribeBookmark()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        searchResultsCollectionView.frame = view.bounds
+    private func configureUI() {
+        [searchResultsCollectionView, noResultLabel].forEach { component in
+            view.addSubview(component)
+        }
     }
     
-    private func configureUI() {
-        view.addSubview(searchResultsCollectionView)
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            searchResultsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchResultsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            searchResultsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchResultsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            noResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noResultLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
     
     private func configureCollectionView() {
@@ -54,20 +74,43 @@ final class SearchResultsViewController: UIViewController {
             switch result {
             case .success(let movieResponse):
                 self?.query = query
+                
+                if movieResponse.response == "False" {
+                    self?.configureWithNoResults()
+                }
+                
                 guard let totalResultsString = movieResponse.totalResults,
                       let totalResultsInt = Int(totalResultsString),
                       let movies = movieResponse.search else {
                     return
                 }
                 self?.totalPages = totalResultsInt / 10 + 1
-                self?.movies = movies
-                
-                DispatchQueue.main.async {
-                    self?.searchResultsCollectionView.reloadData()
-                }
+                self?.configureWithResults(results: movies)
             case .failure(let error):
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    /// 검색 결과가 있을 때 호출
+    private func configureWithResults(results: [Movie]) {
+        movies = results
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.noResultLabel.isHidden = true
+            self?.searchResultsCollectionView.reloadData()
+        }
+    }
+    
+    /// 검색 결과가 없을 때 호출
+    private func configureWithNoResults() {
+        movies = []
+        currentPage = 1
+        totalPages = 0
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.noResultLabel.isHidden = false
+            self?.searchResultsCollectionView.reloadData()
         }
     }
     
