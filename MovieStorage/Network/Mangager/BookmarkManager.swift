@@ -11,22 +11,23 @@ class BookmarkManager {
     
     static let shared = BookmarkManager()
     
-    private var bookmarks = Set<Movie>()
+    private let coreDataManager = CoreDataManager.shared
     
     func insertBookmark(movie: Movie) {
-        bookmarks.insert(movie)
+        coreDataManager.createMovie(movie: movie)
     }
     
     func removeBookmark(movie: Movie) {
-        bookmarks.remove(movie)
+        coreDataManager.deleteMovie(movie: movie)
     }
     
     func containsBookmark(movie: Movie) -> Bool {
+        let bookmarks = coreDataManager.fetchMovie()
         return bookmarks.contains(movie)
     }
     
     func fetchBookmark() -> [Movie] {
-        return Array(bookmarks)
+        return coreDataManager.fetchMovie()
     }
 }
 
