@@ -29,6 +29,10 @@ class BookmarkManager {
     func fetchBookmark() -> [Movie] {
         return coreDataManager.fetchMovie()
     }
+    
+    func resetOrderBookmark(movies: [Movie]) {
+        coreDataManager.resetOrder(movies: movies)
+    }
 }
 
 

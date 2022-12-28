@@ -61,6 +61,14 @@ class CoreDataManager {
         return movies
     }
     
+    func resetOrder(movies: [Movie]) {
+        deleteAllMovie()
+        
+        for movie in movies {
+            createMovie(movie: movie)
+        }
+    }
+    
     func deleteMovie(movie: Movie) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let context = appDelegate.persistentContainer.viewContext
@@ -70,6 +78,18 @@ class CoreDataManager {
         let managedObject = fetchResults.filter { $0.imdbID == movie.imdbID }[0]
         context.delete(managedObject)
         
+        appDelegate.saveContext()
+    }
+    
+    func deleteAllMovie() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let fetchResults = fetchModel()
+        
+        for result in fetchResults {
+            context.delete(result)
+        }
         appDelegate.saveContext()
     }
 }

@@ -90,9 +90,11 @@ extension BookmarkViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         bookmarks.insert(bookmarks.remove(at: sourceIndexPath.item), at: destinationIndexPath.item)
+        BookmarkManager.shared.resetOrderBookmark(movies: bookmarks)
     }
 }
 
+// MARK: drag & drop 관련 메서드
 extension BookmarkViewController: UICollectionViewDragDelegate {
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         return []
@@ -112,6 +114,7 @@ extension BookmarkViewController: UICollectionViewDropDelegate {
             let bookmark = bookmarks[sourceIndexPath.item]
             bookmarks.remove(at: sourceIndexPath.item)
             bookmarks.insert(bookmark, at: destinationIndexPath.item)
+            BookmarkManager.shared.resetOrderBookmark(movies: bookmarks)
             
             collectionView.deleteItems(at: [sourceIndexPath])
             collectionView.insertItems(at: [destinationIndexPath])
